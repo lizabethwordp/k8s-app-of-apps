@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-dev
+  namespace: argocd
+spec:
+  project: dev
+  source:
+    repoURL: https://github.com/lizabethwordp/k8s-manifests
+    targetRevision: dev
+    path: java-helm-charts
+    helm:
+      valueFiles:
+        - values-app.yaml
+        - dev/dev-values.yaml   # ✅ relative to cert-apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dev
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true

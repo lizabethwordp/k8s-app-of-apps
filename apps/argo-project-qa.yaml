@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: qa
+  namespace: argocd
+spec:
+  description: Qa environment apps
+  sourceRepos:
+    - https://github.com/lizabethwordp/*        # App-of-Apps repo
+  destinations:
+    - namespace: qa
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'

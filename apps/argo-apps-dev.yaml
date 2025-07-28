@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-apps-dev
+  namespace: argocd
+spec:
+  project: dev
+  source:
+    repoURL: https://github.com/lizabethwordp/k8s-app-of-apps      # App-of-Apps repo
+    targetRevision: dev
+    path: apps/dev                                  # ✅ Only dev apps
+    directory:
+      recurse: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+ 

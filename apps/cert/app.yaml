@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app-cert
+  namespace: argocd
+spec:
+  project: cert
+  source:
+    repoURL: https://github.com/lizabethwordp/k8s-manifests
+    targetRevision: cert
+    path: app-charts
+    helm:
+      valueFiles:
+        - values-app.yaml
+        - prod/cert-values.yaml   # ✅ relative to cert-apps
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cert
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
